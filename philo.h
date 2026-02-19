@@ -6,7 +6,7 @@
 /*   By: hcissoko <hcissoko@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 01:48:14 by hcissoko          #+#    #+#             */
-/*   Updated: 2026/02/18 17:00:36 by hcissoko         ###   ########.fr       */
+/*   Updated: 2026/02/19 13:58:07 by hcissoko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,18 +18,29 @@
 # include <pthread.h>
 # include <stdlib.h>
 # include <limits.h>
+# include <sys/time.h>
 
-int		ft_isdigit(int c);
-long	ft_atol(char *str);
+typedef struct s_data
+{
+	long			time_to_die;
+	long			time_to_eat;
+	long			time_to_sleep;
+	long			must_eating_times;
+	pthread_mutex_t	*forks;
+}	t_data;
 
 typedef struct s_philosopher
 {
-	int				id;
-	int				time_to_die;
-	int				time_to_eat;
-	int				time_to_sleep;
-	int				eating_number_of_times;
-	pthread_mutex_t	fork;	
+	int		id;
+	int		nb_philo;
+	t_data	*data;
+	long	eating_times;
+	long	last_eating_time;
 }	t_philosopher;
+
+int			ft_isdigit(int c);
+long		ft_atol(char *str);
+suseconds_t	get_current_time(void);
+void		*routine(void *arg);
 
 #endif
