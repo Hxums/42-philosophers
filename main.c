@@ -6,7 +6,7 @@
 /*   By: hcissoko <hcissoko@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/16 08:18:53 by hcissoko          #+#    #+#             */
-/*   Updated: 2026/02/19 10:03:45 by hcissoko         ###   ########.fr       */
+/*   Updated: 2026/02/19 23:36:39 by hcissoko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,6 @@ int	main(int argc, char **argv)
 	pthread_mutex_t	*forks;
 	int				i;
 
-	i = 0;
 	if (argv && argc != 5 && argc != 6)
 	{
 		printf("You can only use it with 4 arguments (+1 optional)\n \
@@ -103,12 +102,20 @@ int	main(int argc, char **argv)
 		time_to_eat time_to_sleep [number_of_times_each_philosopher_must_eat]");
 		return (1);
 	}
+
 	check_args(argc, argv);
 	forks = gen_forks(ft_atol(argv[1]));
 	if (!forks)
-		return (printf("Error while creating philosophers (malloc issue)\n"), 1);
+		return (printf("Malloc issue\n"), 1);
 	data = gen_data(argv, forks);
 	list = gen_philosophers(argv, &data);
 	if (!list)
-		return (printf("Error while creating philosophers (malloc issue)\n"), 1);
+		return (printf("Malloc issue\n"), 1);
+	i = -1;
+	while (++i < ft_atol(argv[1]))
+		pthread_create(&list[i].thread_id, NULL, routine, &list[i]);
+	i = -1;
+	while (++i < ft_atol(argv[1]))
+		pthread_join(list[i].thread_id, NULL);
+	return (0);
 }

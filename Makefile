@@ -1,6 +1,6 @@
-NAME = philosopers
+NAME = philosophers
 
-SRC = main.c ft_isdigit.c ft_atol.c
+SRC = main.c ft_isdigit.c ft_atol.c routine.c
 
 OBJS = ${SRC:.c=.o}
 
@@ -12,10 +12,12 @@ INCS	=
 all:    ${NAME}
 
 .c.o:
-	${CC} ${CFLAGS} -c $< -o $@ $(INCS)
+	@${CC} ${CFLAGS} -c $< -o $@ $(INCS)
 
 $(NAME): ${OBJS}
-	$(CC) $(CFLAGS) $(OBJS) -o $(NAME)
+	@$(CC) $(CFLAGS) $(OBJS) -o $(NAME)
+	@echo "Philosophers compilé avec succès"
+
 clean:
 	${RM} ${OBJS}
 

@@ -6,7 +6,7 @@
 /*   By: hcissoko <hcissoko@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 01:48:14 by hcissoko          #+#    #+#             */
-/*   Updated: 2026/02/19 13:58:07 by hcissoko         ###   ########.fr       */
+/*   Updated: 2026/02/19 23:21:12 by hcissoko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,11 +31,12 @@ typedef struct s_data
 
 typedef struct s_philosopher
 {
-	int		id;
-	int		nb_philo;
-	t_data	*data;
-	long	eating_times;
-	long	last_eating_time;
+	int			id;
+	pthread_t	thread_id;
+	int			nb_philo;
+	t_data		*data;
+	long		eating_times;
+	long		last_eating_time;
 }	t_philosopher;
 
 int			ft_isdigit(int c);
