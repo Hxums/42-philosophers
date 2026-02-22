@@ -1,12 +1,12 @@
-NAME = philosophers
+NAME = philo
 
-SRC = main.c ft_isdigit.c ft_atol.c routine.c
+SRC = main.c ft_isdigit.c ft_atol.c monitor.c sleeping.c routine.c utils.c
 
 OBJS = ${SRC:.c=.o}
 
 CC        = cc
 RM        = rm -f
-CFLAGS = -Wall -Wextra -Werror -pthread
+CFLAGS = -Wall -Wextra -Werror -pthread -g3
 INCS	=
 
 all:    ${NAME}

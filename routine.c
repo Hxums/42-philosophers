@@ -6,38 +6,75 @@
 /*   By: hcissoko <hcissoko@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/19 10:14:06 by hcissoko          #+#    #+#             */
-/*   Updated: 2026/02/19 23:37:36 by hcissoko         ###   ########.fr       */
+/*   Updated: 2026/02/22 13:20:15 by hcissoko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-suseconds_t	get_current_time(void)
+void	eating(t_philosopher *philo)
 {
-	struct timeval	current_time;
+	pthread_mutex_t	*fork1;
+	pthread_mutex_t	*fork2;
 
-	gettimeofday(&current_time, NULL);
-	return (current_time.tv_usec);
+	if (philo->id % 2 == 0)
+	{
+		fork1 = &philo->data->forks[philo->id - 1];
+		fork2 = &philo->data->forks[philo->id % philo->nb_philo];
+	}
+	else
+	{
+		fork1 = &philo->data->forks[philo->id % philo->nb_philo];
+		fork2 = &philo->data->forks[philo->id - 1];
+	}
+	pthread_mutex_lock(fork1);
+	print_status("has taken a fork\n", philo);
+	pthread_mutex_lock(fork2);
+	print_status("has taken a fork\n", philo);
+	pthread_mutex_lock(&philo->eat_lock);
+	philo->last_eating_time = get_current_time();
+	philo->eating_times++;
+	pthread_mutex_unlock(&philo->eat_lock);
+	print_status("is eating\n", philo);
+	ft_usleep(philo->data->time_to_eat, philo->data);
+	pthread_mutex_unlock(fork1);
+	pthread_mutex_unlock(fork2);
+}
+
+void	sleeping(t_philosopher *philo)
+{
+	print_status("is sleeping\n", philo);
+	ft_usleep(philo->data->time_to_sleep, philo->data);
+}
+
+void	thinking(t_philosopher *philo)
+{
+	print_status("is thinking\n", philo);
 }
 
 void	*routine(void *arg)
 {
 	t_philosopher	*philo;
-	pthread_mutex_t	*fork1;
-	pthread_mutex_t	*fork2;
+	int				eating_times;
 
 	philo = (t_philosopher *)arg;
-	fork1 = &philo->data->forks[philo->id - 1];
-	fork2 = &philo->data->forks[philo->id % philo->nb_philo];
-	while (1)
+	if (philo->nb_philo == 1)
 	{
-		pthread_mutex_lock(fork1);
-		pthread_mutex_lock(fork2);
-		printf("%ld %d has taken forks\n", get_current_time(), philo->id);
-		usleep(philo->data->time_to_eat * 1000);
-		pthread_mutex_unlock(fork1);
-		pthread_mutex_unlock(fork2);
-		printf("%ld %d he's sleeping\n", get_current_time(), philo->id);
-		usleep(philo->data->time_to_sleep * 1000);
+		print_status("has taken a fork\n", philo);
+		return (NULL);
 	}
+	while (philo->eating_times != philo->data->must_eating_times)
+	{
+		if (get_stop(philo->data))
+			break ;
+		eating(philo);
+		pthread_mutex_lock(&philo->eat_lock);
+		eating_times = philo->eating_times;
+		pthread_mutex_unlock(&philo->eat_lock);
+		if (eating_times == philo->data->must_eating_times)
+			return (NULL);
+		sleeping(philo);
+		thinking(philo);
+	}
+	return (NULL);
 }

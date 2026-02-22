@@ -6,7 +6,7 @@
 /*   By: hcissoko <hcissoko@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 01:48:14 by hcissoko          #+#    #+#             */
-/*   Updated: 2026/02/19 23:21:12 by hcissoko         ###   ########.fr       */
+/*   Updated: 2026/02/22 11:59:45 by hcissoko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,22 +26,33 @@ typedef struct s_data
 	long			time_to_eat;
 	long			time_to_sleep;
 	long			must_eating_times;
+	int				simulation_stopped;
+	int				stop_sim;
+	long			start_time;
+	pthread_mutex_t	write_lock;
+	pthread_mutex_t	sim_lock;
 	pthread_mutex_t	*forks;
 }	t_data;
 
 typedef struct s_philosopher
 {
-	int			id;
-	pthread_t	thread_id;
-	int			nb_philo;
-	t_data		*data;
-	long		eating_times;
-	long		last_eating_time;
+	int				id;
+	pthread_t		thread_id;
+	int				nb_philo;
+	t_data			*data;
+	long			eating_times;
+	long			last_eating_time;
+	pthread_mutex_t	eat_lock;
 }	t_philosopher;
 
+int			get_stop(t_data *data);
 int			ft_isdigit(int c);
 long		ft_atol(char *str);
-suseconds_t	get_current_time(void);
+void		ft_usleep(long time_in_ms, t_data *data);
+long		get_current_time(void);
+long		get_time(t_data *data);
+void		print_status(char *txt, t_philosopher *philo);
+void		monitoring(t_philosopher *list, int nb_philo, t_data *data);
 void		*routine(void *arg);
 
 #endif
