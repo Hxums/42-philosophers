@@ -6,7 +6,7 @@
 /*   By: hcissoko <hcissoko@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/16 08:18:53 by hcissoko          #+#    #+#             */
-/*   Updated: 2026/02/22 13:25:27 by hcissoko         ###   ########.fr       */
+/*   Updated: 2026/02/22 20:55:22 by hcissoko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,6 +121,7 @@ int	main(int argc, char **argv)
 	if (!list)
 		return (printf("Malloc issue\n"), 1);
 	i = -1;
+	data.start_time = get_current_time();
 	while (++i < ft_atol(argv[1]))
 		pthread_create(&list[i].thread_id, NULL, routine, &list[i]);
 	monitoring(list, ft_atol(argv[1]), &data);

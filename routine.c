@@ -6,7 +6,7 @@
 /*   By: hcissoko <hcissoko@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/19 10:14:06 by hcissoko          #+#    #+#             */
-/*   Updated: 2026/02/22 13:20:15 by hcissoko         ###   ########.fr       */
+/*   Updated: 2026/02/22 20:59:23 by hcissoko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,8 @@ void	*routine(void *arg)
 	if (philo->nb_philo == 1)
 	{
 		print_status("has taken a fork\n", philo);
+		while (!get_stop(philo->data))
+			usleep(1000);
 		return (NULL);
 	}
 	while (philo->eating_times != philo->data->must_eating_times)
