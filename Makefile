@@ -1,6 +1,8 @@
 NAME = philo
 
-SRC = main.c ft_isdigit.c ft_atol.c monitor.c sleeping.c routine.c utils.c
+SRC_DIR = src
+SRC = $(addprefix $(SRC_DIR)/, checker.c ft_atol.c ft_isdigit.c generator.c main.c \
+	monitor.c routine.c sleeping.c utils.c)
 
 OBJS = ${SRC:.c=.o}
 
@@ -16,14 +18,20 @@ all:    ${NAME}
 
 $(NAME): ${OBJS}
 	@$(CC) $(CFLAGS) $(OBJS) -o $(NAME)
-	@echo "Philosophers compilé avec succès"
+	@echo "✅ Build complete! Executable: $(NAME)"
+
 
 clean:
-	${RM} ${OBJS}
+	@${RM} ${OBJS}
+	@echo "🧹 Object files removed."
+
 
 fclean: clean
-	${RM} ${NAME}
+	@${RM} ${NAME}
+	@echo "🗑️  All cleaned (objects + executable)."
+
 
 re: fclean all
+	@echo "🔄 Full rebuild done."
 
 .PHONY: all clean fclean re

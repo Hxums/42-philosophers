@@ -6,7 +6,7 @@
 /*   By: hcissoko <hcissoko@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/19 10:14:06 by hcissoko          #+#    #+#             */
-/*   Updated: 2026/02/22 20:59:23 by hcissoko         ###   ########.fr       */
+/*   Updated: 2026/02/24 19:20:20 by hcissoko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,11 +61,13 @@ void	*routine(void *arg)
 	if (philo->nb_philo == 1)
 	{
 		print_status("has taken a fork\n", philo);
-		while (!get_stop(philo->data))
-			usleep(1000);
+		ft_usleep(philo->data->time_to_die, philo->data);
+		kill_philo(philo->data, *philo);
 		return (NULL);
 	}
-	while (philo->eating_times != philo->data->must_eating_times)
+	if (philo->id != 1)
+		usleep(1000);
+	while (1)
 	{
 		if (get_stop(philo->data))
 			break ;
@@ -75,7 +77,11 @@ void	*routine(void *arg)
 		pthread_mutex_unlock(&philo->eat_lock);
 		if (eating_times == philo->data->must_eating_times)
 			return (NULL);
+		if (get_stop(philo->data))
+			break ;
 		sleeping(philo);
+		if (get_stop(philo->data))
+			break ;
 		thinking(philo);
 	}
 	return (NULL);
