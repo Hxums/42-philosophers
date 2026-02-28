@@ -6,7 +6,7 @@
 /*   By: hcissoko <hcissoko@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/16 08:18:53 by hcissoko          #+#    #+#             */
-/*   Updated: 2026/02/24 21:16:44 by hcissoko         ###   ########.fr       */
+/*   Updated: 2026/02/24 22:10:57 by hcissoko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	launch_sim(t_data *data, t_philosopher *philos, int nb_philo)
 	i = -1;
 	while (++i < nb_philo)
 	{
-		if (pthread_create(&philos[i].thread_id, NULL, routine, 
+		if (pthread_create(&philos[i].thread_id, NULL, routine,
 				&philos[i]) != 0)
 		{
 			pthread_mutex_lock(&data->sim_lock);

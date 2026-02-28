@@ -6,7 +6,7 @@
 /*   By: hcissoko <hcissoko@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/20 19:16:24 by hcissoko          #+#    #+#             */
-/*   Updated: 2026/02/24 21:50:53 by hcissoko         ###   ########.fr       */
+/*   Updated: 2026/02/25 09:05:48 by hcissoko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,26 +42,71 @@ void	kill_philo(t_data *data, t_philosopher philo)
 	pthread_mutex_unlock(&data->write_lock);
 }
 
+void	swap_ids(t_philosopher *philos, int *ids, int i, int j)
+{
+	int	temp;
+
+	if (philos[ids[i]].last_eating_time
+		> philos[ids[j]].last_eating_time)
+	{
+		temp = ids[i];
+		ids[i] = ids[j];
+		ids[j] = temp;
+	}
+}
+
+int	*sorted_ids(t_philosopher *philos, int nb_philo)
+{
+	int		i;
+	int		j;
+	int		*ids;
+
+	ids = malloc(sizeof(int) * nb_philo);
+	if (!ids)
+		return (NULL);
+	i = -1;
+	while (++i < nb_philo)
+		ids[i] = i;
+	i = -1;
+	while (++i < nb_philo)
+	{
+		j = i;
+		while (++j < nb_philo)
+		{
+			pthread_mutex_lock(&philos[ids[i]].eat_lock);
+			pthread_mutex_lock(&philos[ids[j]].eat_lock);
+			swap_ids(philos, ids, i, j);
+			pthread_mutex_unlock(&philos[ids[i]].eat_lock);
+			pthread_mutex_unlock(&philos[ids[j]].eat_lock);
+		}
+	}
+	return (ids);
+}
+
 void	monitoring(t_philosopher *philos, int nb_philo, t_data *data)
 {
 	int		i;
 	long	last_eat;
+	int		*ids;
 
 	while (!all_done_eating(philos, nb_philo, data) && !get_stop(data))
 	{
 		i = -1;
+		ids = sorted_ids(philos, nb_philo);
+		if (!ids)
+			return ;
 		while (++i < nb_philo)
 		{
-			pthread_mutex_lock(&philos[i].eat_lock);
-			last_eat = philos[i].last_eating_time;
-			pthread_mutex_unlock(&philos[i].eat_lock);
+			pthread_mutex_lock(&philos[ids[i]].eat_lock);
+			last_eat = philos[ids[i]].last_eating_time;
+			pthread_mutex_unlock(&philos[ids[i]].eat_lock);
 			if (get_current_time() - last_eat > data->time_to_die)
 			{
-				kill_philo(data, philos[i]);
+				kill_philo(data, philos[ids[i]]);
 				return ;
 			}
-			pthread_mutex_unlock(&philos[i].eat_lock);
 		}
+		free(ids);
 		usleep(100);
 	}
 }

@@ -6,12 +6,11 @@
 /*   By: hcissoko <hcissoko@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/24 15:22:51 by hcissoko          #+#    #+#             */
-/*   Updated: 2026/02/24 21:49:04 by hcissoko         ###   ########.fr       */
+/*   Updated: 2026/02/24 22:10:46 by hcissoko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
-
 
 pthread_mutex_t	*gen_forks(int nb_philo)
 {
