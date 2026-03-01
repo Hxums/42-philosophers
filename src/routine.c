@@ -6,7 +6,7 @@
 /*   By: hcissoko <hcissoko@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/19 10:14:06 by hcissoko          #+#    #+#             */
-/*   Updated: 2026/02/28 15:44:48 by hcissoko         ###   ########.fr       */
+/*   Updated: 2026/03/01 16:37:23 by hcissoko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,18 +17,14 @@ void	eating(t_philosopher *philo)
 	pthread_mutex_t	*fork1;
 	pthread_mutex_t	*fork2;
 
-	if (philo->id % 2 == 0)
-	{
-		fork1 = &philo->data->forks[philo->id - 1];
-		fork2 = &philo->data->forks[philo->id % philo->nb_philo];
-	}
-	else
-	{
-		fork1 = &philo->data->forks[philo->id % philo->nb_philo];
-		fork2 = &philo->data->forks[philo->id - 1];
-	}
+	choose_forks(philo, &fork1, &fork2);
 	pthread_mutex_lock(fork1);
 	print_status("has taken a fork\n", philo);
+	if (get_stop(philo->data))
+	{
+		pthread_mutex_unlock(fork1);
+		return ;
+	}
 	pthread_mutex_lock(fork2);
 	print_status("has taken a fork\n", philo);
 	pthread_mutex_lock(&philo->eat_lock);
@@ -37,8 +33,8 @@ void	eating(t_philosopher *philo)
 	pthread_mutex_unlock(&philo->eat_lock);
 	print_status("is eating\n", philo);
 	ft_usleep(philo->data->time_to_eat, philo->data);
-	pthread_mutex_unlock(fork1);
 	pthread_mutex_unlock(fork2);
+	pthread_mutex_unlock(fork1);
 }
 
 void	sleeping(t_philosopher *philo)
@@ -49,8 +45,13 @@ void	sleeping(t_philosopher *philo)
 
 void	thinking(t_philosopher *philo)
 {
+	long	think_time;
+
 	print_status("is thinking\n", philo);
-	usleep(100);
+	think_time = philo->data->time_to_die - philo->data->time_to_eat
+		- philo->data->time_to_sleep;
+	if (think_time > 0)
+		usleep(think_time * 1000 / 2);
 }
 
 void	solo_philo(t_philosopher *philo)
@@ -63,29 +64,23 @@ void	solo_philo(t_philosopher *philo)
 void	*routine(void *arg)
 {
 	t_philosopher	*philo;
-	// int				eating_times;
+	int				eating_times;
 
 	philo = (t_philosopher *)arg;
 	if (philo->nb_philo == 1)
 		return (solo_philo(philo), NULL);
-	usleep(1000 * (philo->id % 2) + 50 * philo->id);
-	while (1)
+	if (philo->id % 2 == 1)
+		usleep(philo->data->time_to_eat * 1000 / 2);
+	while (!get_stop(philo->data))
 	{
-		if (get_stop(philo->data))
-			break ;
 		eating(philo);
-		// pthread_mutex_lock(&philo->eat_lock);
-		// eating_times = philo->eating_times;
-		// pthread_mutex_unlock(&philo->eat_lock);
-		// if (eating_times == philo->data->must_eating_times)
-		// 	return (NULL);
-		if (get_stop(philo->data))
-			break ;
+		pthread_mutex_lock(&philo->eat_lock);
+		eating_times = philo->eating_times;
+		pthread_mutex_unlock(&philo->eat_lock);
+		if (eating_times == philo->data->must_eating_times)
+			return (NULL);
 		sleeping(philo);
-		if (get_stop(philo->data))
-			break ;
 		thinking(philo);
-		usleep(300);
 	}
 	return (NULL);
 }

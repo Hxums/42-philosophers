@@ -6,7 +6,7 @@
 /*   By: hcissoko <hcissoko@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/16 08:18:53 by hcissoko          #+#    #+#             */
-/*   Updated: 2026/02/24 22:10:57 by hcissoko         ###   ########.fr       */
+/*   Updated: 2026/03/01 09:53:09 by hcissoko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ int	main(int argc, char **argv)
 	t_data			data;
 	pthread_mutex_t	*forks;
 	int				nb_philo;
+	int				i;
 
 	nb_philo = ft_atol(argv[1]);
 	check_args_number(argc, argv);
@@ -54,6 +55,9 @@ int	main(int argc, char **argv)
 	if (!philos)
 		return (clean(data, NULL, nb_philo), printf("Malloc issue\n"), 1);
 	data.start_time = get_current_time();
+	i = -1;
+	while (++i < nb_philo)
+		philos[i].last_eating_time = data.start_time;
 	launch_sim(&data, philos, nb_philo);
 	clean(data, philos, nb_philo);
 }

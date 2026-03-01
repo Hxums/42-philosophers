@@ -2,7 +2,7 @@ NAME = philo
 
 SRC_DIR = src
 SRC = $(addprefix $(SRC_DIR)/, checker.c ft_atol.c ft_isdigit.c generator.c main.c \
-	monitor.c routine.c sleeping.c utils.c)
+	monitor.c routine.c utils.c utils2.c)
 
 OBJS = ${SRC:.c=.o}
 

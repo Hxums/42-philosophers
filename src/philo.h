@@ -6,7 +6,7 @@
 /*   By: hcissoko <hcissoko@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 01:48:14 by hcissoko          #+#    #+#             */
-/*   Updated: 2026/02/24 15:24:13 by hcissoko         ###   ########.fr       */
+/*   Updated: 2026/03/01 12:52:50 by hcissoko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,4 +61,6 @@ void			monitoring(t_philosopher *list, int nb_philo, t_data *data);
 void			*routine(void *arg);
 void			clean(t_data data, t_philosopher *philos, int nb_philo);
 void			kill_philo(t_data *data, t_philosopher philo);
+void			choose_forks(t_philosopher *philo, pthread_mutex_t **fork1,
+					pthread_mutex_t **fork2);
 #endif	

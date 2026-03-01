@@ -6,7 +6,7 @@
 /*   By: hcissoko <hcissoko@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/24 15:22:51 by hcissoko          #+#    #+#             */
-/*   Updated: 2026/02/24 22:10:46 by hcissoko         ###   ########.fr       */
+/*   Updated: 2026/03/01 10:34:59 by hcissoko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,6 @@ t_data	gen_data(char **argv, pthread_mutex_t *forks)
 	data.time_to_eat = ft_atol(argv[3]);
 	data.time_to_sleep = ft_atol(argv[4]);
 	data.must_eating_times = -1;
-	data.start_time = get_current_time();
 	data.stop_sim = 0;
 	if (argv[5])
 		data.must_eating_times = ft_atol(argv[5]);
@@ -69,7 +68,6 @@ t_philosopher	*gen_philosophers(char **argv, t_data *data)
 		list[i].id = i + 1;
 		list[i].nb_philo = nb_philo;
 		list[i].data = data;
-		list[i].last_eating_time = data->start_time;
 		list[i].eating_times = 0;
 		if (pthread_mutex_init(&list[i].eat_lock, NULL) != 0)
 		{
