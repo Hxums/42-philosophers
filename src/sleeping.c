@@ -6,7 +6,7 @@
 /*   By: hcissoko <hcissoko@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/20 22:57:42 by hcissoko          #+#    #+#             */
-/*   Updated: 2026/02/25 09:15:08 by hcissoko         ###   ########.fr       */
+/*   Updated: 2026/02/28 14:47:56 by hcissoko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,6 @@ void	ft_usleep(long time_in_ms, t_data *data)
 	{
 		if (get_stop(data))
 			break ;
-		usleep(50);
+		usleep(500);
 	}
 }

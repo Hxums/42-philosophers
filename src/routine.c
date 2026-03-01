@@ -6,7 +6,7 @@
 /*   By: hcissoko <hcissoko@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/19 10:14:06 by hcissoko          #+#    #+#             */
-/*   Updated: 2026/02/25 16:55:08 by hcissoko         ###   ########.fr       */
+/*   Updated: 2026/02/28 15:44:48 by hcissoko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ void	sleeping(t_philosopher *philo)
 void	thinking(t_philosopher *philo)
 {
 	print_status("is thinking\n", philo);
+	usleep(100);
 }
 
 void	solo_philo(t_philosopher *philo)
@@ -62,7 +63,7 @@ void	solo_philo(t_philosopher *philo)
 void	*routine(void *arg)
 {
 	t_philosopher	*philo;
-	int				eating_times;
+	// int				eating_times;
 
 	philo = (t_philosopher *)arg;
 	if (philo->nb_philo == 1)
@@ -73,11 +74,11 @@ void	*routine(void *arg)
 		if (get_stop(philo->data))
 			break ;
 		eating(philo);
-		pthread_mutex_lock(&philo->eat_lock);
-		eating_times = philo->eating_times;
-		pthread_mutex_unlock(&philo->eat_lock);
-		if (eating_times == philo->data->must_eating_times)
-			return (NULL);
+		// pthread_mutex_lock(&philo->eat_lock);
+		// eating_times = philo->eating_times;
+		// pthread_mutex_unlock(&philo->eat_lock);
+		// if (eating_times == philo->data->must_eating_times)
+		// 	return (NULL);
 		if (get_stop(philo->data))
 			break ;
 		sleeping(philo);
