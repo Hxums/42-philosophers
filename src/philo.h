@@ -6,7 +6,7 @@
 /*   By: hcissoko <hcissoko@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 01:48:14 by hcissoko          #+#    #+#             */
-/*   Updated: 2026/03/01 12:52:50 by hcissoko         ###   ########.fr       */
+/*   Updated: 2026/03/03 14:43:27 by hcissoko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ typedef struct s_philosopher
 }	t_philosopher;
 
 void			check_args(int argc, char **argv);
-void			check_args_number(int argc, char **argv);
+void			check_args_number(int argc);
 pthread_mutex_t	*gen_forks(int nb_philo);
 t_data			gen_data(char **argv, pthread_mutex_t *forks);
 t_philosopher	*gen_philosophers(char **argv, t_data *data);

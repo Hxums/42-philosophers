@@ -6,7 +6,7 @@
 /*   By: hcissoko <hcissoko@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/16 08:18:53 by hcissoko          #+#    #+#             */
-/*   Updated: 2026/03/01 09:53:09 by hcissoko         ###   ########.fr       */
+/*   Updated: 2026/03/03 14:43:38 by hcissoko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,9 +44,9 @@ int	main(int argc, char **argv)
 	int				nb_philo;
 	int				i;
 
-	nb_philo = ft_atol(argv[1]);
-	check_args_number(argc, argv);
+	check_args_number(argc);
 	check_args(argc, argv);
+	nb_philo = ft_atol(argv[1]);
 	forks = gen_forks(nb_philo);
 	if (!forks)
 		return (printf("Malloc issue\n"), 1);
