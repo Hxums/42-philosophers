@@ -6,7 +6,7 @@
 /*   By: hcissoko <hcissoko@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/20 19:16:24 by hcissoko          #+#    #+#             */
-/*   Updated: 2026/03/04 17:28:36 by hcissoko         ###   ########.fr       */
+/*   Updated: 2026/03/04 20:30:17 by hcissoko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,6 @@ void	monitoring(t_philosopher *philos, int nb_philo, t_data *data)
 				return ;
 			}
 		}
-		usleep(1000);
+		usleep(500);
 	}
 }
