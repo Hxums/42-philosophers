@@ -6,7 +6,7 @@
 /*   By: hcissoko <hcissoko@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/24 15:20:06 by hcissoko          #+#    #+#             */
-/*   Updated: 2026/03/03 14:44:16 by hcissoko         ###   ########.fr       */
+/*   Updated: 2026/03/04 09:30:58 by hcissoko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void	check_args(int argc, char **argv)
 		}
 		i++;
 	}
-	if (atol(argv[1]) == 0)
+	if (ft_atol(argv[1]) == 0)
 		exit(1);
 }
 
