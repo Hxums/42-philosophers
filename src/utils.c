@@ -6,7 +6,7 @@
 /*   By: hcissoko <hcissoko@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/22 11:37:49 by hcissoko          #+#    #+#             */
-/*   Updated: 2026/02/24 20:49:31 by hcissoko         ###   ########.fr       */
+/*   Updated: 2026/03/04 11:11:58 by hcissoko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,26 +45,4 @@ int	get_stop(t_data *data)
 	stop = data->stop_sim;
 	pthread_mutex_unlock(&data->sim_lock);
 	return (stop);
-}
-
-void	clean(t_data data, t_philosopher *philos, int nb_philo)
-{
-	int	i;
-
-	if (data.forks)
-	{
-		i = -1;
-		while (++i < nb_philo)
-			pthread_mutex_destroy(&data.forks[i]);
-		free(data.forks);
-	}
-	pthread_mutex_destroy(&data.sim_lock);
-	pthread_mutex_destroy(&data.write_lock);
-	if (philos)
-	{
-		i = -1;
-		while (++i < nb_philo)
-			pthread_mutex_destroy(&philos[i].eat_lock);
-		free(philos);
-	}
 }

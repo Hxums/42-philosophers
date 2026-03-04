@@ -6,7 +6,7 @@
 /*   By: hcissoko <hcissoko@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 01:48:14 by hcissoko          #+#    #+#             */
-/*   Updated: 2026/03/04 09:31:00 by hcissoko         ###   ########.fr       */
+/*   Updated: 2026/03/04 11:58:13 by hcissoko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ typedef struct s_philosopher
 void			check_args(int argc, char **argv);
 void			check_args_number(int argc);
 pthread_mutex_t	*gen_forks(int nb_philo);
-t_data			gen_data(char **argv, pthread_mutex_t *forks);
+int				gen_data(char **argv, pthread_mutex_t *forks, t_data *data);
 t_philosopher	*gen_philosophers(char **argv, t_data *data);
 int				get_stop(t_data *data);
 int				ft_isdigit(int c);
@@ -58,7 +58,8 @@ long			get_time(t_data *data);
 void			print_status(char *txt, t_philosopher *philo);
 void			monitoring(t_philosopher *list, int nb_philo, t_data *data);
 void			*routine(void *arg);
-void			clean(t_data data, t_philosopher *philos, int nb_philo);
+void			clean_forks(pthread_mutex_t *forks, int nb_philo);
+void			clean(t_data *data, t_philosopher *philos, int nb_philo);
 void			kill_philo(t_data *data, t_philosopher philo);
 void			choose_forks(t_philosopher *philo, pthread_mutex_t **fork1,
 					pthread_mutex_t **fork2);

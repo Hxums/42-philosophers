@@ -6,7 +6,7 @@
 /*   By: hcissoko <hcissoko@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/24 15:22:51 by hcissoko          #+#    #+#             */
-/*   Updated: 2026/03/01 10:34:59 by hcissoko         ###   ########.fr       */
+/*   Updated: 2026/03/04 11:01:02 by hcissoko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,21 +35,24 @@ pthread_mutex_t	*gen_forks(int nb_philo)
 	return (forks);
 }
 
-t_data	gen_data(char **argv, pthread_mutex_t *forks)
+int	gen_data(char **argv, pthread_mutex_t *forks, t_data *data)
 {
-	t_data	data;
-
-	data.forks = forks;
-	data.time_to_die = ft_atol(argv[2]);
-	data.time_to_eat = ft_atol(argv[3]);
-	data.time_to_sleep = ft_atol(argv[4]);
-	data.must_eating_times = -1;
-	data.stop_sim = 0;
+	data->forks = forks;
+	data->time_to_die = ft_atol(argv[2]);
+	data->time_to_eat = ft_atol(argv[3]);
+	data->time_to_sleep = ft_atol(argv[4]);
+	data->must_eating_times = -1;
+	data->stop_sim = 0;
 	if (argv[5])
-		data.must_eating_times = ft_atol(argv[5]);
-	pthread_mutex_init(&data.sim_lock, NULL);
-	pthread_mutex_init(&data.write_lock, NULL);
-	return (data);
+		data->must_eating_times = ft_atol(argv[5]);
+	if (pthread_mutex_init(&data->sim_lock, NULL) != 0)
+		return (0);
+	if (pthread_mutex_init(&data->write_lock, NULL) != 0)
+	{
+		pthread_mutex_destroy(&data->sim_lock);
+		return (0);
+	}
+	return (1);
 }
 
 t_philosopher	*gen_philosophers(char **argv, t_data *data)

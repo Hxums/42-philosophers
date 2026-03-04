@@ -6,7 +6,7 @@
 /*   By: hcissoko <hcissoko@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/20 19:16:24 by hcissoko          #+#    #+#             */
-/*   Updated: 2026/02/28 15:45:06 by hcissoko         ###   ########.fr       */
+/*   Updated: 2026/03/04 09:33:25 by hcissoko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ void	monitoring(t_philosopher *philos, int nb_philo, t_data *data)
 			pthread_mutex_lock(&philos[i].eat_lock);
 			last_eat = philos[i].last_eating_time;
 			pthread_mutex_unlock(&philos[i].eat_lock);
-			if (get_current_time() - last_eat > data->time_to_die)
+			if (get_current_time() - last_eat >= data->time_to_die)
 			{
 				kill_philo(data, philos[i]);
 				return ;
