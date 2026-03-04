@@ -6,7 +6,7 @@
 /*   By: hcissoko <hcissoko@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/19 10:14:06 by hcissoko          #+#    #+#             */
-/*   Updated: 2026/03/02 13:37:40 by hcissoko         ###   ########.fr       */
+/*   Updated: 2026/03/04 09:10:44 by hcissoko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,11 +26,11 @@ void	eating(t_philosopher *philo)
 		return ;
 	}
 	pthread_mutex_lock(fork2);
-	print_status("has taken a fork\n", philo);
 	pthread_mutex_lock(&philo->eat_lock);
 	philo->last_eating_time = get_current_time();
 	philo->eating_times++;
 	pthread_mutex_unlock(&philo->eat_lock);
+	print_status("has taken a fork\n", philo);
 	print_status("is eating\n", philo);
 	ft_usleep(philo->data->time_to_eat, philo->data);
 	pthread_mutex_unlock(fork2);
@@ -51,7 +51,7 @@ void	thinking(t_philosopher *philo)
 	think_time = philo->data->time_to_die - philo->data->time_to_eat
 		- philo->data->time_to_sleep;
 	if (think_time > 0)
-		usleep(think_time * 1000 / 2);
+		ft_usleep(think_time / 2, philo->data);
 }
 
 void	solo_philo(t_philosopher *philo)
@@ -70,7 +70,7 @@ void	*routine(void *arg)
 	if (philo->nb_philo == 1)
 		return (solo_philo(philo), NULL);
 	if (philo->id % 2 == 1)
-		usleep(philo->data->time_to_eat * 1000 / 2);
+		ft_usleep(philo->data->time_to_eat / 2, philo->data);
 	while (!get_stop(philo->data))
 	{
 		eating(philo);
