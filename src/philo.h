@@ -6,7 +6,7 @@
 /*   By: hcissoko <hcissoko@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 01:48:14 by hcissoko          #+#    #+#             */
-/*   Updated: 2026/03/03 14:43:27 by hcissoko         ###   ########.fr       */
+/*   Updated: 2026/03/04 09:31:00 by hcissoko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,6 @@ typedef struct s_data
 	long			time_to_eat;
 	long			time_to_sleep;
 	long			must_eating_times;
-	int				simulation_stopped;
 	int				stop_sim;
 	long			start_time;
 	pthread_mutex_t	write_lock;
