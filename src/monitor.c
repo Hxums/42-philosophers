@@ -6,7 +6,7 @@
 /*   By: hcissoko <hcissoko@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/20 19:16:24 by hcissoko          #+#    #+#             */
-/*   Updated: 2026/03/04 09:33:25 by hcissoko         ###   ########.fr       */
+/*   Updated: 2026/03/04 17:28:36 by hcissoko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 int	all_done_eating(t_philosopher *list, int nb_philo, t_data *data)
 {
 	int		i;
-	int		eating_times;
+	long	eating_times;
 
 	i = 0;
 	if (data->must_eating_times == -1)
@@ -61,6 +61,6 @@ void	monitoring(t_philosopher *philos, int nb_philo, t_data *data)
 				return ;
 			}
 		}
-		usleep(500);
+		usleep(1000);
 	}
 }
