@@ -6,7 +6,7 @@
 /*   By: hcissoko <hcissoko@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/19 10:14:06 by hcissoko          #+#    #+#             */
-/*   Updated: 2026/03/04 19:20:40 by hcissoko         ###   ########.fr       */
+/*   Updated: 2026/03/04 21:51:05 by hcissoko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,11 +47,17 @@ void	thinking(t_philosopher *philo)
 {
 	long	think_time;
 
+	pthread_mutex_lock(&philo->eat_lock);
+	think_time = (philo->data->time_to_die
+			- (get_current_time() - philo->last_eating_time)
+			- philo->data->time_to_eat) / 2;
+	pthread_mutex_unlock(&philo->eat_lock);
+	if (think_time < 0)
+		think_time = 0;
+	if (think_time > 1000)
+		think_time = 100;
 	print_status("is thinking\n", philo);
-	think_time = philo->data->time_to_die - (philo->data->time_to_eat * 1.5)
-		- (philo->data->time_to_sleep * 1.5);
-	if (think_time > 100)
-		ft_usleep(think_time, philo->data);
+	ft_usleep(think_time, philo->data);
 }
 
 void	solo_philo(t_philosopher *philo)
